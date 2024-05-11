@@ -1,0 +1,9 @@
+ssrv lets you quickly create custom web pages using a simple yaml instructions. No programming needed :)
+
+With ssrv, you can do the following:
+- custom response headers
+- any content length
+- status code of your choice
+- custom response body
+
+It can help you in bug bounties for example, if you'd want to test for SSRF but the host expects certain type of response.

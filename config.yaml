@@ -1,0 +1,53 @@
+- path: /
+  status_code: 200
+  headers:
+    Content-Type: text/html
+  body:
+    type: text  # mandatory
+    content: "<h1>Welcome to ssrv</h1>\n<br>\n<p>Navigate to <a href='/about'>/about</a> to learn more!</p>"
+
+- path: /about
+  status_code: 202
+  headers:
+    Content-Type: text/plain
+  body:
+    type: file
+    content: files/about.txt 
+
+# Examples
+
+# json response
+- path: /examples/json
+  headers:
+    Content-Type: application/json
+  body:
+    type: text
+    content: |
+      {
+        "message": "🔥ssrv🔥 says hi"
+      }
+
+# 403 status code  
+- path: /examples/secret
+  status_code: 403
+  body:
+    type: text
+    content: "Forbidden"
+
+# custom status code
+- path: /examples/1337
+  status_code: 1337
+  body:
+    type: text
+    content: "cause why not?!"
+
+# Image file
+- path: /cat
+  status_code: 200
+  headers:
+    Content-Type: image/jpeg
+    Attribute: Photo by <a href="https://unsplash.com/@sajadnori?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Sajad Nori</a> on <a href="https://unsplash.com/photos/brown-tabby-cat-in-close-up-photography-s1puI2BWQzQ?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+#    Content-Length: 500  # can be set to customize the content length header, else it will automatically be set the appropriate value
+  body:
+    type: file
+    content: files/cat.jpg  
