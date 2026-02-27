@@ -14,6 +14,26 @@
     type: file
     content: files/about.txt 
 
+# Method-specific example — GET /ping returns pong, POST /ping returns different response
+- path: /ping
+  method: GET
+  body:
+    type: text
+    content: "pong"
+
+- path: /ping
+  method: POST
+  status_code: 201
+  body:
+    type: text
+    content: "created"
+
+# No method field = matches any method (GET, POST, FOOBAR, anything)
+- path: /ping
+  body:
+    type: text
+    content: "fallback for any other method"
+
 # Examples
 
 # json response
