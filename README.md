@@ -26,7 +26,7 @@ What problem it solves for me:
 
 2. **Install Dependencies:**
    ```bash
-   pip install Flask gunicorn
+   pip3 install -r requirements.txt
    ```
 
 ## Usage
