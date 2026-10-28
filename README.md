@@ -41,6 +41,17 @@ What problem it solves for me:
    ```
    This starts the server on `http://0.0.0.0:8000` using Gunicorn for better performance. Also, to remove certain headers, I used Gunicorn. I wasn't able to find any ways to do it from flask itself. I'm not a good programmer :3
 
+### HTTPS (self-signed)
+
+```bash
+python3 main.py --ssl --ssl-host example.com
+```
+
+- `--ssl` serves over HTTPS using a self-signed certificate. Without `--ssl-host` the certificate is issued for `localhost`.
+- `--ssl-host <hostname|ip>` is the name the certificate is generated for (requires `--ssl`).
+- Certificates live in `./certs/`: `<hostname>.pem` (certificate), `<hostname>.key` (private key) and `<hostname>.cer` (DER certificate). If a valid, unexpired certificate for that hostname already exists it is reused, otherwise a new one is generated (RSA 2048, 365 days). Requires the `openssl` binary.
+- `python3 main.py` uses the same Gunicorn settings from `gunicorn_config.py` (bind address, workers, header stripping), so HTTPS listens on `0.0.0.0:8000` by default.
+
 ## Configuration
 
 ### `config.yaml` Structure

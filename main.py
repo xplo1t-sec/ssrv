@@ -3,7 +3,7 @@ import yaml
 
 app = Flask(__name__)
 
-CONFIG_FILE = 'config.yaml'
+CONFIG_FILE = 'config-octokit-ssrf.yaml'
 DEFAULT_STATUS_CODE = 200   # default status code if not set
 
 
@@ -63,4 +63,37 @@ def handle_request(path):
     return Response("Endpoint not found", status=404, headers={"Content-Type": "text/html"})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000)
+    import argparse
+    import runpy
+
+    from gunicorn.app.base import BaseApplication
+
+    from ssl_utils import ensure_cert
+
+    parser = argparse.ArgumentParser(description='ssrv: Simple Serve(r)')
+    parser.add_argument('--ssl', action='store_true',
+                        help='serve over HTTPS using a self-signed certificate')
+    parser.add_argument('--ssl-host', metavar='HOSTNAME',
+                        help='hostname/IP for the generated certificate (requires --ssl; default: localhost). '
+                             'Certs are stored in ./certs/<hostname>.pem|key|cer and reused when still valid')
+    args = parser.parse_args()
+
+    if args.ssl_host and not args.ssl:
+        parser.error('--ssl-host requires --ssl')
+
+    class SsrvApplication(BaseApplication):
+        def load_config(self):
+            # same settings (and header stripping) as `gunicorn -c gunicorn_config.py main:app`
+            config = runpy.run_path('gunicorn_config.py')
+            for key, value in config.items():
+                if key in self.cfg.settings and value is not None:
+                    self.cfg.set(key.lower(), value)
+            if args.ssl:
+                certfile, keyfile = ensure_cert(args.ssl_host or 'localhost')
+                self.cfg.set('certfile', certfile)
+                self.cfg.set('keyfile', keyfile)
+
+        def load(self):
+            return app
+
+    SsrvApplication().run()

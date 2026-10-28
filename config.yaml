@@ -12,7 +12,7 @@
     Content-Type: text/plain
   body:
     type: file
-    content: files/about.txt 
+    content: files/about.txt
 
 # Method-specific example — GET /ping returns pong, POST /ping returns different response
 - path: /ping
@@ -47,7 +47,7 @@
         "message": "🔥ssrv🔥 says hi"
       }
 
-# 403 status code  
+# 403 status code
 - path: /examples/secret
   status_code: 403
   body:
@@ -70,4 +70,4 @@
 #    Content-Length: 500  # can be set to customize the content length header, else it will automatically be set the appropriate value
   body:
     type: file
-    content: files/cat.jpg  
+    content: files/cat.jpg
