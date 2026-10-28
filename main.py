@@ -3,7 +3,7 @@ import yaml
 
 app = Flask(__name__)
 
-CONFIG_FILE = 'config-octokit-ssrf.yaml'
+CONFIG_FILE = 'config.yaml'
 DEFAULT_STATUS_CODE = 200   # default status code if not set
 
 
